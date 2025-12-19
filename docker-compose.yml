@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: backend-hunter-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount for development (optional, remove in production)
+      - ./src:/app/src:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Optional: CLI service for running bulk scans
+  cli:
+    build: .
+    container_name: backend-hunter-cli
+    entrypoint: ["python", "-m", "src.backend_hunter.main"]
+    volumes:
+      - ./data:/app/data  # For input CSVs and output reports
+    profiles:
+      - cli  # Only run when explicitly requested: docker compose --profile cli run cli bulk ...
