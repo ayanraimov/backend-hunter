@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "backend-hunter"
+version = "0.1.0"
+description = "Herramienta de inteligencia para detectar Stack Tecnológico y conformidad fiscal de empresas."
+authors = ["Tu Nombre <tucorreo@ejemplo.com>"]
+readme = "README.md"
+packages = [{include = "backend_hunter", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.30.0"}
+httpx = {extras = ["http2"], version = "^0.27.0"}
+pandas = "^2.2.0"
+typer = "^0.20.0"
+beautifulsoup4 = "^4.12.0"
+pydantic-settings = "^2.3.0"
+lxml = "^5.2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+pytest-asyncio = "^0.23.0"
+black = "^24.4.0"
+isort = "^5.13.0"
+mypy = "^1.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
