@@ -1,110 +1,114 @@
 # The Backend Hunter Intelligence
 
-Herramienta CLI y API para detectar Stack Tecnológico y conformidad legal (FCT) de empresas.
+CLI tool and API for detecting Tech Stack and legal compliance (FCT) of companies.
 
-## Arquitectura
+## Architecture
 
-El proyecto sigue **Clean Architecture / DDD**:
-- `domain/` - Entidades y reglas de negocio puras
-- `application/` - Casos de uso y puertos (interfaces)
-- `infrastructure/` - Implementaciones (API, CLI, Scraping, Análisis)
+The project follows **Clean Architecture / DDD**:
+- `domain/` - Pure entities and business rules
+- `application/` - Use cases and ports (interfaces)
+- `infrastructure/` - Implementations (API, CLI, Scraping, Analysis)
 
-## Prerrequisitos
+## Prerequisites
 
 - Python 3.11+
 - [Poetry](https://python-poetry.org/docs/#installation)
-- Docker (opcional)
+- Docker (optional)
 
-### Instalar Poetry (Windows)
+### Install Poetry (Windows)
 
 ```bash
 pip install poetry
 ```
 
-## Instalación
-
+## Installation
 ```bash
 poetry install
 ```
-
-## Uso
-
-### CLI - Escaneo individual
+### Usage
+CLI - Single scan
+```bash
+poetry run python -m backend_hunter.main scan https://example.com
+```
+Or using the installed command:
 
 ```bash
-poetry run python -m backend_hunter.main scan https://ejemplo.com
+poetry run hunter scan https://example.com
 ```
-
-O usando el comando instalado:
-
+### CLI - Bulk scanning from CSV
 ```bash
-poetry run hunter scan https://ejemplo.com
+poetry run hunter bulk companies.csv --output report.csv
 ```
-
-### CLI - Escaneo masivo desde CSV
-
-```bash
-poetry run hunter bulk empresas.csv --output reporte.csv
+Available options:
 ```
+-c, --column: Name of the column with URLs (default: url)
 
-Opciones disponibles:
-- `-c, --column`: Nombre de la columna con URLs (default: `url`)
-- `-o, --output`: Archivo de salida (default: `report.csv`)
-- `-f, --format`: Formato de salida: `csv`, `json`, `excel` (default: `csv`)
-- `-n, --concurrency`: Número de escaneos simultáneos (default: `5`)
+-o, --output: Output file (default: report.csv)
 
-### API - Servidor FastAPI
+-f, --format: Output format: csv, json, excel (default: csv)
 
+-n, --concurrency: Number of concurrent scans (default: 5)
+```
+### API - FastAPI Server
 ```bash
 poetry run uvicorn backend_hunter.infrastructure.api.main:app --reload
 ```
-
-Documentación interactiva disponible en: http://127.0.0.1:8000/docs
+Interactive documentation available at: http://127.0.0.1:8000/docs
 
 ### Docker
-
 ```bash
-# Construir y ejecutar API
+# Build and run API
 docker compose up -d
 
-# Escaneo masivo con CLI
-docker compose --profile cli run cli bulk /app/data/empresas.csv -o /app/data/reporte.csv
+# Bulk scanning with CLI
+docker compose --profile cli run cli bulk /app/data/companies.csv -o /app/data/report.csv
 ```
 
-## Tecnologías Detectadas
+### Detected Technologies
+| Stack   | Detected Frameworks      |
+| ------- | ------------------------ |
+| Python  | Django, FastAPI, Flask   |
+| Node.js | Express, NestJS, Next.js |
+| .NET    | ASP.NET, .NET Core       |
+| PHP     | Laravel, WordPress       |
+| Java    | Spring                   |
+| Ruby    | Rails                    |
+| Go      | -                        |
 
-| Stack    | Frameworks detectados           |
-|----------|--------------------------------|
-| Python   | Django, FastAPI, Flask         |
-| Node.js  | Express, NestJS, Next.js       |
-| .NET     | ASP.NET, .NET Core             |
-| PHP      | Laravel, WordPress             |
-| Java     | Spring                         |
-| Ruby     | Rails                          |
-| Go       | -                              |
+### FCT Compliance (Balearic Islands)
+Automatically detects 07xxx postal codes and mentions to Balearic Islands in contact and legal pages.
 
-## Conformidad FCT (Baleares)
-
-Detecta automáticamente códigos postales `07xxx` y menciones a Islas Baleares en páginas de contacto y legales.
-
-## Formato CSV de entrada
-
-```csv
+### Input CSV Format
+```text
 url
-https://empresa1.com
-https://empresa2.es
+https://company1.com
+https://company2.es
 ```
 
-## Desarrollo
-
+### Development
 ```bash
-# Ejecutar tests
+# Run tests
 poetry run pytest
 
-# Formatear código
+# Format code
 poetry run black src/
 poetry run isort src/
 
-# Verificar tipos
+# Check types
 poetry run mypy src/
 ```
+
+## License
+
+MIT License - feel free to use this project for learning or commercial purposes.
+
+## Author
+
+**Ayan Reyhanov Raimov**
+
+- GitHub: [@ayanraimov](https://github.com/ayanraimov)
+- LinkedIn: [ayanreyhanov](https://linkedin.com/in/ayanreyhanov)
+
+---
+
+⭐️ Star this repo if you find it useful!
