@@ -2,9 +2,15 @@
 name = "backend-hunter"
 version = "0.1.0"
 description = "Herramienta de inteligencia para detectar Stack Tecnológico y conformidad fiscal de empresas."
-authors = ["Tu Nombre <tucorreo@ejemplo.com>"]
+authors = ["Ayan Reyhanov <ayanrr0692@gmail.com>"]
 readme = "README.md"
+license = "MIT"
+keywords = ["backend", "scraping", "tech-stack", "compliance", "intelligence"]
+repository = "https://github.com/ayanraimov/backend-hunter"
 packages = [{include = "backend_hunter", from = "src"}]
+
+[tool.poetry.scripts]
+hunter = "backend_hunter.infrastructure.cli.app:app"
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -16,6 +22,7 @@ typer = "^0.20.0"
 beautifulsoup4 = "^4.12.0"
 pydantic-settings = "^2.3.0"
 lxml = "^5.2.0"
+rich = "^13.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
@@ -27,3 +34,41 @@ mypy = "^1.10.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+# ============================================================================
+# Tool Configuration
+# ============================================================================
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | __pycache__
+  | \.mypy_cache
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["backend_hunter"]
+skip = [".venv", "__pycache__"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+exclude = ["tests/", ".venv/"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
